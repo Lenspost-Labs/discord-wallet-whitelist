@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "discord.js": "^14.11.0",
+    "dotenv": "^16.3.1",
+    "nodemon": "^3.0.1",
+    "redis": "^4.6.7"
+  },
+  "name": "discord-bot",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "version": "1.0.0"
+}
