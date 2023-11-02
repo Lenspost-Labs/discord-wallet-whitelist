@@ -13,6 +13,7 @@ const client = new Client({
   ],
 });
 
+const fs = require("fs");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -22,34 +23,19 @@ client.on(Events.MessageCreate, async (interaction) => {
   await db.connect();
   // console.log(interaction)
   console.log(interaction.content);
+  //Get the contents of the message
   let content = interaction.content;
 
-  if (content.startsWith("c")) {
-    content = content.split(" ")[1];
-    console.log(content);
-
-    let contract = await db.get("contract");
-
-    if (!contract) contract = [];
-    else contract = JSON.parse(contract);
-
-    contract.push(content);
-
-    await db.set("contract", JSON.stringify(contract));
-
-    interaction.react("👍");
-    await db.disconnect();
-    return;
-  }
-
-  let address = await db.get("address");
+  let address = await db.get("whitelisted_wallets");
+  address = await JSON.parse(address);
+  console.log(address);
 
   if (!address) address = [];
-  else address = JSON.parse(address);
+  // Push the wallet to be whitelisted
+  if (content.startsWith("0x") && content.length == 42) address.push(content);
 
-  address.push(content);
-
-  await db.set("address", JSON.stringify(address));
+ 
+  await db.set("whitelisted_wallets", JSON.stringify(address));
 
   interaction.react("👍");
   await db.disconnect();
