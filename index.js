@@ -28,14 +28,20 @@ client.on(Events.MessageCreate, async (interaction) => {
 
   let address = await db.get("whitelisted_wallets");
   address = await JSON.parse(address);
-  console.log(address);
+  // console.log(address);
 
   if (!address) address = [];
   // Push the wallet to be whitelisted
-  if (content.startsWith("0x") && content.length == 42) address.push(content);
+  if (
+    content.startsWith("0x") &&
+    content.length == 42 &&
+    !address.includes(content)
+  )
+    address.push(content);
 
- 
   await db.set("whitelisted_wallets", JSON.stringify(address));
+  address = await db.get("whitelisted_wallets");
+  // console.log(address);
 
   interaction.react("👍");
   await db.disconnect();
