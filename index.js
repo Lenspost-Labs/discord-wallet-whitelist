@@ -41,9 +41,9 @@ client.on(Events.MessageCreate, async (interaction) => {
 
   await db.set("whitelisted_wallets", JSON.stringify(address));
   address = await db.get("whitelisted_wallets");
-  // console.log(address);
 
   interaction.react("👍");
+  
   await db.disconnect();
 });
 
