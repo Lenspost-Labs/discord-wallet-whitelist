@@ -32,6 +32,7 @@ client.on(Events.MessageCreate, async (interaction) => {
 
   if (!address) address = [];
   // Push the wallet to be whitelisted
+  
   if (
     content.startsWith("0x") &&
     content.length == 42 &&
