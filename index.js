@@ -34,7 +34,7 @@ function isValidSolanaAddress(address) {
 }
 
 client.on(Events.MessageCreate, async (interaction) => {
-  console.log(interaction.content, interaction.guildId, interaction.channelId)
+  console.log(interaction.content, interaction.guildId, interaction.channelId);
   if (interaction.guildId === guildId && interaction.channelId === channelId) {
     try {
       await db.connect();
@@ -56,11 +56,11 @@ client.on(Events.MessageCreate, async (interaction) => {
           !address.includes(content)) ||
         isValidSolanaAddress(content)
       ) {
-        address.push(content);
+        if (!address.includes(content)) {
+          address.push(content);
 
-        await db.set("whitelisted_wallets", JSON.stringify(address));
-        address = await db.get("whitelisted_wallets");
-        // console.log(address);
+          await db.set("whitelisted_wallets", JSON.stringify(address));
+        }
 
         interaction.react("👍");
       } else {
