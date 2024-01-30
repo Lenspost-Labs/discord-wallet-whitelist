@@ -4,7 +4,7 @@ dotenv.config();
 
 let redisURI = process.env.REDIS_URI;
 
-console.log(redisURI);
+// console.log(redisURI);
 
 const client = createClient({
   url: redisURI,
