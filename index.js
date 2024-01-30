@@ -34,10 +34,11 @@ function isValidSolanaAddress(address) {
 }
 
 client.on(Events.MessageCreate, async (interaction) => {
+  console.log(interaction)
   console.log(interaction.content, interaction.guildId, interaction.channelId);
   console.log(typeof interaction.guildId, typeof guildId);
   console.log(typeof interaction.channelId, typeof channelId);
-  if (interaction.guildId == guildId && interaction.channelId == channelId) {
+  if (interaction.guildId === guildId && interaction.channelId === channelId) {
     try {
       await db.connect();
       console.log(interaction.content);
