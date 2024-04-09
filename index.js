@@ -35,8 +35,11 @@ function isValidSolanaAddress(address) {
 
 client.on(Events.MessageCreate, async (interaction) => {
   console.log(interaction.content, interaction.guildId, interaction.channelId);
-  if (interaction.guildId === guildId && interaction.channelId === channelId) {
-    try {
+  try {
+    if (
+      interaction.guildId === guildId &&
+      interaction.channelId === channelId
+    ) {
       await db.connect();
       console.log(interaction.content);
       let content = interaction.content;
@@ -48,9 +51,15 @@ client.on(Events.MessageCreate, async (interaction) => {
 
       if (!address) address = [];
 
-      console.log(isValidSolanaAddress(content));
+      console.log("Is valid Solana Address: ", isValidSolanaAddress(content));
+      console.log(
+        "Is already present in the cache: ",
+        address.includes(content)
+      );
 
-      if (
+      if (address.includes(content)) {
+        interaction.react("👍");
+      } else if (
         (content.startsWith("0x") &&
           content.length == 42 &&
           !address.includes(content)) ||
@@ -67,10 +76,10 @@ client.on(Events.MessageCreate, async (interaction) => {
         interaction.react("👎");
       }
       await db.disconnect();
-    } catch (error) {
-      interaction.react("❗");
-      console.log(error);
     }
+  } catch (error) {
+    interaction.react("❗");
+    console.log(error);
   }
 });
 
