@@ -2,8 +2,6 @@ const {
   Client,
   GatewayIntentBits,
   Events,
-  SlashCommandBuilder,
-  Collection,
 } = require("discord.js");
 const client = new Client({
   intents: [
@@ -14,8 +12,6 @@ const client = new Client({
 });
 
 const { PublicKey } = require("@solana/web3.js");
-
-const fs = require("fs");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -34,28 +30,19 @@ function isValidSolanaAddress(address) {
 }
 
 client.on(Events.MessageCreate, async (interaction) => {
-  console.log(interaction.content, interaction.guildId, interaction.channelId);
   try {
     if (
       interaction.guildId === guildId &&
       interaction.channelId === channelId
     ) {
       await db.connect();
-      console.log(interaction.content);
       let content = interaction.content;
       content.trim();
 
       let address = await db.get("whitelisted_wallets");
-      // console.log(address);
       address = await JSON.parse(address);
 
       if (!address) address = [];
-
-      console.log("Is valid Solana Address: ", isValidSolanaAddress(content));
-      console.log(
-        "Is already present in the cache: ",
-        address.includes(content)
-      );
 
       if (address.includes(content)) {
         interaction.react("👍");

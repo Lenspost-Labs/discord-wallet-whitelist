@@ -8,8 +8,7 @@
   },
   "name": "discord-bot",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "bun index.js"
   },
   "version": "1.0.0"
 }
